@@ -2,7 +2,7 @@ echo "========================================="
 echo "Начало конфигурирования Kafka-кластера   "
 echo "========================================="
 
-cd  ./1
+cd  ./security
 echo "1. Загрузка .env"
 set -a
 source .env
@@ -10,7 +10,7 @@ set +a
 
 echo "2. Создадим приватные ключи и запросы на сертификат (CSR)"
 openssl req -new -newkey rsa:2048 -keyout kafka-1.key -out kafka-1.csr -config kafka-1.cnf  -nodes
-openssl req -new -newkey rsa:2048 -keyout kafka-2.key -out kafka-2.csr -config kafka-1.cnf  -nodes
+openssl req -new -newkey rsa:2048 -keyout kafka-2.key -out kafka-2.csr -config kafka-2.cnf  -nodes
 openssl req -new -newkey rsa:2048 -keyout kafka-3.key -out kafka-3.csr -config kafka-3.cnf  -nodes
 
 
@@ -26,8 +26,8 @@ openssl pkcs12 -export -in kafka-3.crt -inkey kafka-3.key -chain  -CAfile ./ca/c
 
 echo "5. Создадим truststore для каждого брокера c паролем ${PASSWORD}:"
 keytool -import -file ./ca/ca.crt -alias ca -keystore kafka-1.truststore.jks -storepass ${PASSWORD} -noprompt
-keytool -import -file ./ca/ca.crt -alias ca -keystore kafka-1.truststore.jks -storepass ${PASSWORD} -noprompt
-keytool -import -file ./ca/ca.crt -alias ca -keystore kafka-1.truststore.jks -storepass ${PASSWORD} -noprompt
+keytool -import -file ./ca/ca.crt -alias ca -keystore kafka-2.truststore.jks -storepass ${PASSWORD} -noprompt
+keytool -import -file ./ca/ca.crt -alias ca -keystore kafka-3.truststore.jks -storepass ${PASSWORD} -noprompt
 
 echo "6. Создадим файлы с паролями:"
 echo ${PASSWORD} > kafka-1_sslkey_creds

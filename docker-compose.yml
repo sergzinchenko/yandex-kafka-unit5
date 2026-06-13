@@ -71,6 +71,7 @@ services:
     environment:
       <<: *kafka-common-env
       KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: SASL_SSL://0.0.0.0:9192,OUTBOUND://0.0.0.0:19192
       KAFKA_ADVERTISED_LISTENERS: SASL_SSL://kafka-1:9192,OUTBOUND://${SERVER}:19192
       KAFKA_SSL_TRUSTSTORE_LOCATION: /etc/kafka/secrets/kafka-1.truststore.jks
       KAFKA_SSL_KEYSTORE_FILENAME: kafka-1.keystore.jks
@@ -103,6 +104,7 @@ services:
     environment:
       <<: *kafka-common-env
       KAFKA_BROKER_ID: 2
+      KAFKA_LISTENERS: SASL_SSL://0.0.0.0:9292,OUTBOUND://0.0.0.0:19292
       KAFKA_ADVERTISED_LISTENERS: SASL_SSL://kafka-2:9292,OUTBOUND://${SERVER}:19292
       KAFKA_SSL_KEYSTORE_FILENAME: kafka-2.keystore.jks
       KAFKA_SSL_TRUSTSTORE_LOCATION: /etc/kafka/secrets/kafka-2.truststore.jks
@@ -136,6 +138,7 @@ services:
     environment:
       <<: *kafka-common-env
       KAFKA_BROKER_ID: 3
+      KAFKA_LISTENERS: SASL_SSL://0.0.0.0:9392,OUTBOUND://0.0.0.0:19392
       KAFKA_ADVERTISED_LISTENERS: SASL_SSL://kafka-3:9392,OUTBOUND://${SERVER}:19392
       KAFKA_SSL_KEYSTORE_FILENAME: kafka-3.keystore.jks
       KAFKA_SSL_TRUSTSTORE_LOCATION: /etc/kafka/secrets/kafka-3.truststore.jks
@@ -155,7 +158,7 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:9192
       - KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL=SASL_SSL
       - KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM=PLAIN
-      - KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG=org.apache.kafka.common.security.plain.PlainLoginModule required username="ui" password="${PASSWORD}";
+      - KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG=org.apache.kafka.common.security.plain.PlainLoginModule required username="ui" password="ui5pass";
       - KAFKA_CLUSTERS_0_PROPERTIES_SSL_TRUSTSTORE_LOCATION=/etc/kafka-ui/client.truststore.jks
       - KAFKA_CLUSTERS_0_PROPERTIES_SSL_TRUSTSTORE_PASSWORD=${PASSWORD}
       - KAFKA_CLUSTERS_0_PROPERTIES_SSL_TRUSTSTORE_TYPE=JKS
